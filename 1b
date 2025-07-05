@@ -1,0 +1,51 @@
+import java.util.Random;
+public class TransportSystem {
+    public static void main(String[] args) {
+        Company taxiCompany = new Company();
+        PassengerSource hotel = new PassengerSource(taxiCompany);
+        
+        for (int i = 1; i <= 5; i++) {
+            boolean scheduled = hotel.requestPickup();
+            System.out.println("Pickup request #" + i + " result: " + 
+                             (scheduled ? "SUCCESS" : "FAILED"));
+        }
+    }
+}
+
+class PassengerSource {
+    private Company company;
+    private Random random;
+        public PassengerSource(Company company) {
+        this.company = company;
+        this.random = new Random();
+    }
+    public boolean requestPickup() {
+        Location pickup = new Location(random.nextInt(101), random.nextInt(101));
+        Location destination = new Location(random.nextInt(101), random.nextInt(101));
+        Passenger passenger = new Passenger(pickup, destination);
+        return company.schedulePickup(passenger);  // Directly return the company's response
+    }
+}
+class Company {
+    public boolean schedulePickup(Passenger passenger) {
+        return Math.random() < 0.7;
+    }
+}
+
+class Location {
+    private int x;
+    private int y;
+    public Location(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class Passenger {
+    private Location pickup;
+    private Location destination;
+    public Passenger(Location pickup, Location destination) {
+        this.pickup = pickup;
+        this.destination = destination;
+    }
+}
