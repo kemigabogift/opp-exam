@@ -1,0 +1,19 @@
+
+import java.util.Scanner;
+public class UgandaWordCounter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the book description:");
+        String description = scanner.nextLine();
+        String lowerCaseDescription = description.toLowerCase();
+        String searchWord = "uganda";
+        int count = 0;
+        int index = 0;
+        while ((index = lowerCaseDescription.indexOf(searchWord, index)) != -1) {
+            count++;
+            index += searchWord.length(); 
+        }
+        System.out.println("The word 'Uganda' appears " + count + " times in the description.");
+        scanner.close();
+    }
+}
