@@ -1,0 +1,34 @@
+import java.util.Arrays;
+import java.util.Random;
+public class AQIAnalyzer {
+    public static void main(String[] args) {
+        int[] aqiReadings = new int[30];
+        Random random = new Random();
+
+        System.out.println("AQI Readings for 30 Days:");
+        for (int i = 0; i < aqiReadings.length; i++) {
+            aqiReadings[i] = random.nextInt(300) + 1;  // generates 1 to 300
+            System.out.print(aqiReadings[i] + " ");
+        }
+
+        Arrays.sort(aqiReadings);  // Sort the array first
+        double median;
+        int mid = aqiReadings.length / 2;
+        if (aqiReadings.length % 2 == 0) {
+            median = (aqiReadings[mid - 1] + aqiReadings[mid]) / 2.0;
+        } else {
+            median = aqiReadings[mid];
+        }
+        System.out.println("\n\nSorted AQI Readings: " + Arrays.toString(aqiReadings));
+        System.out.println("Median AQI: " + median);
+
+        int hazardousDays = 0;
+        for (int reading : aqiReadings) {
+            if (reading > 200) {
+                hazardousDays++;
+            }
+        }
+
+        System.out.println("Number of Hazardous Days (AQI > 200): " + hazardousDays);
+    }
+}
