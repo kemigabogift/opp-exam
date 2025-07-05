@@ -1,0 +1,74 @@
+import java.io.*;
+import java.util.Scanner;
+public class MedicalLogFileReader {
+    public static void main(String[] args) {
+        File medicalLogFile = new File("medical_log.txt");
+                readAndDisplayFile(medicalLogFile);
+    }
+    public static void readAndDisplayFile(File medicalLogFile) {
+        BufferedReader reader = null;
+        
+        try {
+            FileReader fileReader = new FileReader(medicalLogFile);
+            reader = new BufferedReader(fileReader);
+            System.out.println("Reading content from: " + medicalLogFile.getName());
+            System.out.println("=" + "=".repeat(50));
+            String line;
+            int lineNumber = 1;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(lineNumber + ": " + line);
+                lineNumber++;
+            }
+            System.out.println("=" + "=".repeat(50));
+            System.out.println("File read successfully. Total lines: " + (lineNumber - 1));
+        } catch (FileNotFoundException e) {
+            System.err.println("FileNotFoundException caught: File not found - " + medicalLogFile.getAbsolutePath());
+            System.err.println("Please ensure the file exists and the path is correct.");
+            System.err.println("Exception details: " + e.getMessage());
+            
+        } catch (IOException e) {
+
+            System.err.println("IOException caught: An I/O error occurred while reading the file.");
+            System.err.println("This could be due to permission issues, disk errors, or network problems.");
+            System.err.println("Exception details: " + e.getMessage());
+        } finally {
+            // Ensure the file is closed properly to free resources
+            if (reader != null) {
+                try {
+                    reader.close();
+                    System.out.println("File closed successfully.");
+                } catch (IOException e) {
+                    System.err.println("Warning: Error closing file - " + e.getMessage());
+                }
+            }
+        }
+    }
+    
+    public static void readAndDisplayFileWithTryWithResources(File medicalLogFile) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(medicalLogFile))) {
+            
+            System.out.println("Reading content from: " + medicalLogFile.getName());
+            System.out.println("=" + "=".repeat(50));
+            
+            String line;
+            int lineNumber = 1;
+            
+            while ((line = reader.readLine()) != null) {
+                System.out.println(lineNumber + ": " + line);
+                lineNumber++;
+            }
+            System.out.println("=" + "=".repeat(50));
+            System.out.println("File read successfully. Total lines: " + (lineNumber - 1));
+            
+        } catch (FileNotFoundException e) {
+            System.err.println("FileNotFoundException caught: File not found - " + medicalLogFile.getAbsolutePath());
+            System.err.println("Please ensure the file exists and the path is correct.");
+            System.err.println("Exception details: " + e.getMessage());
+            
+        } catch (IOException e) {
+            System.err.println("IOException caught: An I/O error occurred while reading the file.");
+            System.err.println("This could be due to permission issues, disk errors, or network problems.");
+            System.err.println("Exception details: " + e.getMessage());
+        }
+    }
+}
